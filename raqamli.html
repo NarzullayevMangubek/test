@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raqamli Kompetensiyalar - Test</title>
+<style>
+:root{--gr:#1a7a4a;--grl:#e8f5ee;--grd:#155e38;--rd:#c0392b;--rdl:#fdf0ef;--gy:#f4f5f7;--br:#dde1e7;--tx:#1a1d23;--mt:#6b7280;--wh:#fff;--r:12px;--sh:0 2px 12px rgba(0,0,0,.08)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:var(--tx);min-height:100vh}
+.sc{display:none}.sc.on{display:block}
+
+#home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1rem}
+.logo{width:72px;height:72px;background:#2563eb;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:36px}
+.htitle{font-size:clamp(18px,4vw,26px);font-weight:700;text-align:center;margin-bottom:4px}
+.hsub{color:var(--mt);text-align:center;margin-bottom:1.75rem;font-size:13px;line-height:1.5}
+
+.mod-grid{display:flex;flex-direction:column;gap:10px;width:100%;max-width:480px;margin-bottom:1.25rem}
+.mod-card{background:var(--wh);border-radius:14px;box-shadow:var(--sh);padding:1.1rem 1.25rem;border:2px solid transparent;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:14px}
+.mod-card:hover{border-color:#2563eb;transform:translateY(-1px)}
+.mod-card.sel{border-color:#2563eb;background:#eff6ff}
+.mod-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:#eff6ff}
+.mod-card.sel .mod-icon{background:rgba(37,99,235,0.15)}
+.mod-info{flex:1;min-width:0}
+.mod-name{font-weight:700;font-size:14px;margin-bottom:3px}
+.mod-desc{font-size:11px;color:var(--mt);line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mod-badge{background:var(--gy);color:var(--mt);font-size:11px;font-weight:600;padding:3px 8px;border-radius:20px;flex-shrink:0;white-space:nowrap}
+.mod-card.sel .mod-badge{background:#2563eb;color:#fff}
+
+.card{background:var(--wh);border-radius:var(--r);box-shadow:var(--sh);padding:1.25rem 1.5rem;width:100%;max-width:480px;margin-bottom:1rem}
+.card h3{font-size:11px;font-weight:600;margin-bottom:.75rem;color:var(--mt);text-transform:uppercase;letter-spacing:.5px}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{padding:7px 14px;border-radius:50px;border:2px solid var(--br);background:var(--wh);font-size:13px;cursor:pointer;font-weight:500}
+.pill.on{border-color:#2563eb;background:#eff6ff;color:#2563eb}
+.sbtn{width:100%;max-width:480px;padding:15px;background:#2563eb;color:#fff;border:none;border-radius:var(--r);font-size:16px;font-weight:700;cursor:pointer;transition:all .2s}
+.sbtn:hover{background:#1d4ed8}.sbtn:active{transform:scale(.98)}
+.sbtn:disabled{background:#aaa;cursor:not-allowed}
+
+#quiz{min-height:100vh;display:flex;flex-direction:column}
+.qh{background:var(--wh);border-bottom:1px solid var(--br);padding:12px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
+.bb{width:34px;height:34px;border:1.5px solid var(--br);border-radius:8px;background:var(--wh);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bb:hover{background:var(--gy)}
+.pw{flex:1;min-width:0}
+.pl{font-size:12px;color:var(--mt);margin-bottom:4px;display:flex;justify-content:space-between;gap:8px}
+.pl span:last-child{font-size:11px;background:var(--gy);padding:2px 8px;border-radius:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
+.pb{height:5px;background:var(--br);border-radius:3px;overflow:hidden}
+.pf{height:100%;background:#2563eb;border-radius:3px;transition:width .3s}
+.sbadge{background:#eff6ff;color:#2563eb;font-weight:700;font-size:13px;padding:5px 11px;border-radius:20px;flex-shrink:0}
+.qb{flex:1;padding:18px 16px;max-width:720px;margin:0 auto;width:100%}
+.qn{font-size:12px;color:var(--mt);margin-bottom:6px;font-weight:600}
+.qt{font-size:clamp(14px,2.5vw,16px);font-weight:700;line-height:1.55;margin-bottom:18px;background:var(--wh);padding:14px 18px;border-radius:var(--r);border:1px solid var(--br)}
+.os{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:11px;padding:12px 15px;border-radius:var(--r);border:2px solid var(--br);background:var(--wh);cursor:pointer;text-align:left;width:100%;font-size:13px;line-height:1.5;transition:all .15s}
+.opt:hover:not([disabled]){border-color:#2563eb;background:#eff6ff}
+.lt{width:26px;height:26px;border-radius:50%;border:2px solid var(--br);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
+.opt:hover:not([disabled]) .lt{border-color:#2563eb;color:#2563eb}
+.opt.ok{border-color:var(--gr)!important;background:var(--grl)!important}
+.opt.ok .lt{background:var(--gr);border-color:var(--gr);color:#fff}
+.opt.no{border-color:var(--rd)!important;background:var(--rdl)!important}
+.opt.no .lt{background:var(--rd);border-color:var(--rd);color:#fff}
+.fb{margin-top:12px;padding:11px 15px;border-radius:10px;font-size:13px;font-weight:500;line-height:1.5}
+.fb.ok{background:var(--grl);color:#155e38;border:1px solid #a8d5bc}
+.fb.no{background:var(--rdl);color:#922b21;border:1px solid #f1a69e}
+.mavzu-tag{margin-top:10px;font-size:11px;color:var(--mt);background:var(--gy);display:inline-block;padding:4px 10px;border-radius:8px}
+.nb{margin-top:14px;width:100%;padding:13px;background:#2563eb;color:#fff;border:none;border-radius:var(--r);font-size:15px;font-weight:700;cursor:pointer;display:none}
+.nb:hover{background:#1d4ed8}.nb.on{display:block}
+
+#res{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1rem}
+.rc{background:var(--wh);border-radius:20px;box-shadow:var(--sh);padding:2rem 1.5rem;max-width:460px;width:100%;text-align:center}
+.ci{width:120px;height:120px;border-radius:50%;background:#eff6ff;border:4px solid #2563eb;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.25rem}
+.ci .p{font-size:32px;font-weight:800;color:#2563eb}
+.ci .s{font-size:12px;color:var(--mt)}
+.res-mod{display:inline-block;background:#eff6ff;color:#2563eb;font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;margin-bottom:10px}
+.rt{font-size:20px;font-weight:800;margin-bottom:6px}
+.rd2{color:var(--mt);font-size:14px;margin-bottom:1.5rem}
+.rsgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:1.5rem}
+.rv{background:var(--gy);border-radius:10px;padding:12px 6px}
+.rv .n{font-size:20px;font-weight:800}
+.rv .g{color:var(--gr)}.rv .r{color:var(--rd)}.rv .b{color:#2563eb}
+.rv .l{font-size:11px;color:var(--mt);margin-top:2px}
+.brow{display:flex;flex-direction:column;gap:9px}
+.b1{padding:13px;background:#2563eb;color:#fff;border:none;border-radius:var(--r);font-size:15px;font-weight:700;cursor:pointer}
+.b1:hover{background:#1d4ed8}
+.b2{padding:13px;background:var(--gy);color:var(--tx);border:none;border-radius:var(--r);font-size:14px;font-weight:600;cursor:pointer}
+.b2:hover{background:var(--br)}
+@media(max-width:480px){.qb{padding:12px 10px}.opt{padding:10px 12px;font-size:12px}.qt{font-size:14px;padding:12px 14px}}
+</style>
+</head>
+<body>
+
+<script id="qdata" type="application/json">[{"n": 1, "q": "Raqamli etika - nima?", "opts": ["bu virtual muhitni qurish uchun ta'lim platformasi bo'lib, ta'lim virtual dunyosida siz turli xil darslarni o'tkazishingiz mumkin: ma'ruzalar, seminarlar, amaliyotlar, rolli o'yinlar, simulyatsiyalar.", "interfaol modullar orqali o'rganish va o'qitish jarayonini qo'llab-quvvatlash uchun Web 2.0 ilovasi.", "virtual sinflarni yaratish, vazifalar va uy vazifalarini taqsimlash, auditoriya bilan muloqot qilish va odatda auditoriyada va undan tashqarida tartibni saqlash uchun boy, keng qamrovli, bepul yechim hisoblanadi.", "bu onlayn muhitda o'zini tutish qoidalari va tamoyillari to'plamidir. Raqamli etika bizga Internetda va boshqa raqamli muhitda nima qilish mumkin va nima qilish mumkin emasligini tushunishga yordam beradi."], "a": 3, "mavzu": "Raqamli ta'lim muhitida pedagogik dizayn"}, {"n": 2, "q": "DigCompEdu \u2013 o'qituvchining raqamli kompetensiyalarining Yevropa modelida (Digital Competence of Educators) keltirilgan 22 ta kompetensiyani shakllantirishning IKKINCHI yo'nalishi nima?", "opts": ["ta'lim jarayonining barcha subyektlarining raqamli texnologiyalar orqali o'zaro ta'sirini o'z ichiga olgan kompetetsiyalar bilan bog'liq: jamoa, ta'lim oluvchilar va ularning ota-onalari bilan kasbiy o'zaro hamkorlik.", "baholash jarayonida raqamli vositalardan foydalanish bilan bog'liq kompetentsiyalarni belgilaydi. Ta'lim oluvchilar faoliyati haqidagi ma'lumotlarni tahlil qilish va tanqidiy baholash, shuningdek, axborot texnologiyalaridan foydalanish asosida o'z vaqtida va samarali hisobot berish qobiliyatiga ega bo'lishi kerak.", "pedagogning axborot resurslarini tanlash va ularni ta'lim oluvchilar ehtiyojlariga moslashtirish, o'z raqamli resurslarini yaratishi va o'quv jarayonining barcha sub'ektlari uchun ulardan xavfsiz foydalanishni ta'minlash qobiliyatini o'z ichiga oladi.", "ta'lim jarayoni bilan bevosita bog'liq bo'lgan kompetentsiyalarni shakllantirishni, ya'ni ta'lim oluvchilarning mustaqil ishlash qobiliyatini rivojlantirishni ta'minlashga, shuningdek, guruh shaklida ishlashda samarali o'zaro ta'sirini amalga oshirishga qaratilgan kompetentsiyalarini qamrab oladi."], "a": 2, "mavzu": "Ta'lim jarayonini raqamli transformatsiyasi"}, {"n": 3, "q": "VAcademia \u2013 nima?", "opts": ["virtual sinflarni yaratish, vazifalar va uy vazifalarini taqsimlash, auditoriya bilan muloqot qilish va odatda auditoriyada va undan tashqarida tartibni saqlash uchun boy, keng qamrovli, bepul yechim hisoblanadi.", "bu onlayn muhitda o'zini tutish qoidalari va tamoyillari to'plamidir. Raqamli etika bizga Internetda va boshqa raqamli muhitda nima qilish mumkin va nima qilish mumkin emasligini tushunishga yordam beradi.", "bu virtual muhitni qurish uchun ta'lim platformasi bo'lib, ta'lim virtual dunyosida siz turli xil darslarni o'tkazishingiz mumkin: ma'ruzalar, seminarlar, amaliyotlar, rolli o'yinlar, simulyatsiyalar.", "interfaol modullar orqali o'rganish va o'qitish jarayonini qo'llab-quvvatlash uchun Web 2.0 ilovasi."], "a": 2, "mavzu": "Raqamli ta'lim resurslari va dasturiy mahsulotlari"}, {"n": 4, "q": "Raqamli iz nima?", "opts": ["bu Internetdan foydalanish jarayonida insonlar tomonidan qoldiradigan ma'lumotlardir.", "bu odam o'zi bilmagan holda, ya'ni hech qanday faol harakatlar qilmasdan yaratadigan ma'lumotdir.", "pedagogikaning bir qismi hisoblanib, raqamli ta'lim muhitida o'quv jarayonini tashkil etish bo'yicha fan sifatida qaraladi.", "bu zamonaviy raqamli texnologiyalar bilan bog'liq kompetensiyalarni tavsiflovchi yangi tushunchalardan biri hisoblanadi."], "a": 0, "mavzu": "Ta'lim jarayonini raqamli transformatsiyasi"}, {"n": 5, "q": "LearningsApps \u2013 nima?", "opts": ["interfaol modullar orqali o'rganish va o'qitish jarayonini qo'llab-quvvatlash uchun Web 2.0 ilovasi.", "bu onlayn muhitda o'zini tutish qoidalari va tamoyillari to'plamidir. Raqamli etika bizga Internetda va boshqa raqamli muhitda nima qilish mumkin va nima qilish mumkin emasligini tushunishga yordam beradi.", "bu virtual muhitni qurish uchun ta'lim platformasi bo'lib, ta'lim virtual dunyosida siz turli xil darslarni o'tkazishingiz mumkin: ma'ruzalar, seminarlar, amaliyotlar, rolli o'yinlar, simulyatsiyalar.", "virtual sinflarni yaratish, vazifalar va uy vazifalarini taqsimlash, auditoriya bilan muloqot qilish va odatda auditoriyada va undan tashqarida tartibni saqlash uchun boy, keng qamrovli, bepul yechim hisoblanadi."], "a": 0, "mavzu": "Raqamli ta'lim resurslari va dasturiy mahsulotlari"}, {"n": 6, "q": "Raqamli didaktika nima?", "opts": ["pedagogikaning bir qismi hisoblanib, raqamli ta'lim muhitida o'quv jarayonini tashkil etish bo'yicha fan sifatida qaraladi.", "bu odam o'zi bilmagan holda, ya'ni hech qanday faol harakatlar qilmasdan yaratadigan ma'lumotdir.", "bu zamonaviy raqamli texnologiyalar bilan bog'liq kompetensiyalarni tavsiflovchi yangi tushunchalardan biri hisoblanadi.", "bu Internetdan foydalanish jarayonida insonlar tomonidan qoldiradigan ma'lumotlardir."], "a": 0, "mavzu": "Ta'lim jarayonini raqamli transformatsiyasi"}, {"n": 7, "q": "Google Classroom \u2013 nima?", "opts": ["interfaol modullar orqali o'rganish va o'qitish jarayonini qo'llab-quvvatlash uchun Web 2.0 ilovasi.", "bu onlayn muhitda o'zini tutish qoidalari va tamoyillari to'plamidir. Raqamli etika bizga Internetda va boshqa raqamli muhitda nima qilish mumkin va nima qilish mumkin emasligini tushunishga yordam beradi.", "bu virtual muhitni qurish uchun ta'lim platformasi bo'lib, ta'lim virtual dunyosida siz turli xil darslarni o'tkazishingiz mumkin: ma'ruzalar, seminarlar, amaliyotlar, rolli o'yinlar, simulyatsiyalar.", "virtual sinflarni yaratish, vazifalar va uy vazifalarini taqsimlash, auditoriya bilan muloqot qilish va odatda auditoriyada va undan tashqarida tartibni saqlash uchun boy, keng qamrovli, bepul yechim hisoblanadi."], "a": 3, "mavzu": "Raqamli ta'lim resurslari va dasturiy mahsulotlari"}, {"n": 8, "q": "Raqamli kompetentlik nima?", "opts": ["bu odam o'zi bilmagan holda, ya'ni hech qanday faol harakatlar qilmasdan yaratadigan ma'lumotdir.", "bu Internetdan foydalanish jarayonida insonlar tomonidan qoldiradigan ma'lumotlardir.", "pedagogikaning bir qismi hisoblanib, raqamli ta'lim muhitida o'quv jarayonini tashkil etish bo'yicha fan sifatida qaraladi.", "bu zamonaviy raqamli texnologiyalar bilan bog'liq kompetensiyalarni tavsiflovchi yangi tushunchalardan biri hisoblanadi."], "a": 3, "mavzu": "Ta'lim jarayonini raqamli transformatsiyasi"}, {"n": 9, "q": "DigCompEdu \u2013 o'qituvchining raqamli kompetensiyalarining Yevropa modelida (Digital Competence of Educators) keltirilgan 22 ta kompetensiyani shakllantirishning UCHINCHI yo'nalishi nima?", "opts": ["ta'lim jarayonining barcha subyektlarining raqamli texnologiyalar orqali o'zaro ta'sirini o'z ichiga olgan kompetetsiyalar bilan bog'liq: jamoa, ta'lim oluvchilar va ularning ota-onalari bilan kasbiy o'zaro hamkorlik.", "pedagogning axborot resurslarini tanlash va ularni ta'lim oluvchilar ehtiyojlariga moslashtirish, o'z raqamli resurslarini yaratishi va o'quv jarayonining barcha sub'ektlari uchun ulardan xavfsiz foydalanishni ta'minlash qobiliyatini o'z ichiga oladi.", "ta'lim jarayoni bilan bevosita bog'liq bo'lgan kompetentsiyalarni shakllantirishni, ya'ni ta'lim oluvchilarning mustaqil ishlash qobiliyatini rivojlantirishni ta'minlashga, shuningdek, guruh shaklida ishlashda samarali o'zaro ta'sirini amalga oshirishga qaratilgan kompetentsiyalarini qamrab oladi.", "baholash jarayonida raqamli vositalardan foydalanish bilan bog'liq kompetentsiyalarni belgilaydi. Ta'lim oluvchilar faoliyati haqidagi ma'lumotlarni tahlil qilish va tanqidiy baholash, shuningdek, axborot texnologiyalaridan foydalanish asosida o'z vaqtida va samarali hisobot berish qobiliyatiga ega bo'lishi kerak."], "a": 2, "mavzu": "Ta'lim jarayonini raqamli transformatsiyasi"}, {"n": 10, "q": "Canva \u2013 nima?", "opts": ["o'yinlar va savollarga asoslangan ta'lim platformasi bo'lib, uning yordamida talabalar sinf darslarini to'ldiradigan anketalar, viktorinalar, munozaralar yoki so'rovnomalar tuzishlari mumkin.", "bu virtual muhitni qurish uchun ta'lim platformasi bo'lib, ta'lim virtual dunyosida siz turli xil darslarni o'tkazishingiz mumkin: ma'ruzalar, seminarlar, amaliyotlar, rolli o'yinlar, simulyatsiyalar.", "minglab shablonlarni o'zida mujassam etgan onlayn grafik yaratish platformasi bo'lib, uning yordamida shablon va manbalar kutubxonasiga, jumladan, tematik mavzulariga kirishingiz mumkin.", "interfaol modullar orqali o'rganish va o'qitish jarayonini qo'llab-quvvatlash uchun Web 2.0 ilovasi."], "a": 2, "mavzu": "Raqamli ta'lim resurslari va dasturiy mahsulotlari"}, {"n": 11, "q": "Internet xavfsizligi nima?", "opts": ["raqamli etika bizni internetda vijdonli va mas'uliyatli foydalanuvchi bo'lishga o'rgatadi.", "raqamli etika tarmoqdagi boshqa foydalanuvchilar bilan to'g'ri munosabatda bo'lishga yordam beradigan bir qator prinsiplardan iborat.", "raqamli etika qoidalari turli xil kiber tahdidlar, firibgarliklar, shaxsiy ma'lumotlarni o'g'irlash va viruslarni hisobga olgan holda Internetda xavfsizlikni saqlashga yordam beradi.", "raqamli etika hurmat va so'z erkinligini kafolatlaydi, shuningdek, Internetdagi turli fikrlar va ularning mualliflariga hurmat bilan munosabatda bo'lishni buyuradi."], "a": 2, "mavzu": "Raqamli ta'lim muhitida pedagogik dizayn"}, {"n": 12, "q": "Pedagogik dizayn \u2013 nima?", "opts": ["raqamli etika tarmoqdagi boshqa foydalanuvchilar bilan to'g'ri munosabatda bo'lishga yordam beradigan bir qator prinsiplardan iborat.", "bu onlayn ta'limni tashkil etishning asosiy usullaridan biri hisoblanib, pedagogik dizayn kontentni aniq strategiyali, maqsadli va natijalarni tahlil qilish imkoniyatiga ega bo'lgan kursga aylantirish imkoniyatini beradi.", "raqamli etika hurmat va so'z erkinligini kafolatlaydi, shuningdek, Internetdagi turli fikrlar va ularning mualliflariga hurmat bilan munosabatda bo'lishni buyuradi.", "raqamli etika bizni internetda vijdonli va mas'uliyatli foydalanuvchi bo'lishga o'rgatadi."], "a": 1, "mavzu": "Raqamli ta'lim muhitida pedagogik dizayn"}, {"n": 13, "q": "ADDIE \u2013 nima?", "opts": ["virtual sinflarni yaratish, vazifalar va uy vazifalarini taqsimlash, auditoriya bilan muloqot qilish va odatda auditoriyada va undan tashqarida tartibni saqlash uchun boy, keng qamrovli, bepul yechim hisoblanadi.", "onlayn kursni loyihalash uchun eng keng tarqalgan model hisoblanib, ushbu model 5 ta bosqichdan iborat.", "bu virtual muhitni qurish uchun ta'lim platformasi bo'lib, ta'lim virtual dunyosida siz turli xil darslarni o'tkazishingiz mumkin: ma'ruzalar, seminarlar, amaliyotlar, rolli o'yinlar, simulyatsiyalar.", "interfaol modullar orqali o'rganish va o'qitish jarayonini qo'llab-quvvatlash uchun Web 2.0 ilovasi."], "a": 1, "mavzu": "Raqamli ta'lim muhitida pedagogik dizayn"}, {"n": 14, "q": "DigCompEdu \u2013 o'qituvchining raqamli kompetensiyalarining Yevropa modelida (Digital Competence of Educators) keltirilgan 22 ta kompetensiyani shakllantirishning BIRINCHI yo'nalishi nima?", "opts": ["baholash jarayonida raqamli vositalardan foydalanish bilan bog'liq kompetentsiyalarni belgilaydi.", "ta'lim jarayoni bilan bevosita bog'liq bo'lgan kompetentsiyalarni shakllantirishni, ya'ni ta'lim oluvchilarning mustaqil ishlash qobiliyatini rivojlantirishni ta'minlashga, shuningdek, guruh shaklida ishlashda samarali o'zaro ta'sirini amalga oshirishga qaratilgan kompetentsiyalarini qamrab oladi.", "pedagogning axborot resurslarini tanlash va ularni ta'lim oluvchilar ehtiyojlariga moslashtirish, o'z raqamli resurslarini yaratishi va o'quv jarayonining barcha sub'ektlari uchun ulardan xavfsiz foydalanishni ta'minlash qobiliyatini o'z ichiga oladi.", "ta'lim jarayonining barcha subyektlarining raqamli texnologiyalar orqali o'zaro ta'sirini o'z ichiga olgan kompetetsiyalar bilan bog'liq: jamoa, ta'lim oluvchilar va ularning ota-onalari bilan kasbiy o'zaro hamkorlik."], "a": 3, "mavzu": "Ta'lim jarayonini raqamli transformatsiyasi"}, {"n": 15, "q": "Raqamli iz nima? (2-variant)", "opts": ["bu zamonaviy raqamli texnologiyalar bilan bog'liq kompetensiyalarni tavsiflovchi yangi tushunchalardan biri hisoblanadi.", "bu Internetdan foydalanish jarayonida insonlar tomonidan qoldiradigan ma'lumotlardir.", "bu odam o'zi bilmagan holda, ya'ni hech qanday faol harakatlar qilmasdan yaratadigan ma'lumotdir.", "pedagogikaning bir qismi hisoblanib, raqamli ta'lim muhitida o'quv jarayonini tashkil etish bo'yicha fan sifatida qaraladi."], "a": 1, "mavzu": "Ta'lim jarayonini raqamli transformatsiyasi"}, {"n": 16, "q": "LearningsApps \u2013 nima? (2-variant)", "opts": ["bu virtual muhitni qurish uchun ta'lim platformasi bo'lib, ta'lim virtual dunyosida siz turli xil darslarni o'tkazishingiz mumkin: ma'ruzalar, seminarlar, amaliyotlar, rolli o'yinlar, simulyatsiyalar.", "interfaol modullar orqali o'rganish va o'qitish jarayonini qo'llab-quvvatlash uchun Web 2.0 ilovasi.", "virtual sinflarni yaratish, vazifalar va uy vazifalarini taqsimlash, auditoriya bilan muloqot qilish va odatda auditoriyada va undan tashqarida tartibni saqlash uchun boy, keng qamrovli, bepul yechim hisoblanadi.", "bu onlayn muhitda o'zini tutish qoidalari va tamoyillari to'plamidir. Raqamli etika bizga Internetda va boshqa raqamli muhitda nima qilish mumkin va nima qilish mumkin emasligini tushunishga yordam beradi."], "a": 1, "mavzu": "Raqamli ta'lim resurslari va dasturiy mahsulotlari"}, {"n": 17, "q": "Raqamli didaktika nima? (2-variant)", "opts": ["bu Internetdan foydalanish jarayonida insonlar tomonidan qoldiradigan ma'lumotlardir.", "bu zamonaviy raqamli texnologiyalar bilan bog'liq kompetensiyalarni tavsiflovchi yangi tushunchalardan biri hisoblanadi.", "pedagogikaning bir qismi hisoblanib, raqamli ta'lim muhitida o'quv jarayonini tashkil etish bo'yicha fan sifatida qaraladi.", "bu odam o'zi bilmagan holda, ya'ni hech qanday faol harakatlar qilmasdan yaratadigan ma'lumotdir."], "a": 2, "mavzu": "Ta'lim jarayonini raqamli transformatsiyasi"}, {"n": 18, "q": "DigCompEdu \u2013 o'qituvchining raqamli kompetensiyalarining Yevropa modelida (Digital Competence of Educators) keltirilgan 22 ta kompetensiyani shakllantirishning UCHINCHI yo'nalishi nima? (2-variant)", "opts": ["pedagogning axborot resurslarini tanlash va ularni ta'lim oluvchilar ehtiyojlariga moslashtirish, o'z raqamli resurslarini yaratishi va o'quv jarayonining barcha sub'ektlari uchun ulardan xavfsiz foydalanishni ta'minlash qobiliyatini o'z ichiga oladi.", "ta'lim jarayoni bilan bevosita bog'liq bo'lgan kompetentsiyalarni shakllantirishni, ya'ni ta'lim oluvchilarning mustaqil ishlash qobiliyatini rivojlantirishni ta'minlashga, shuningdek, guruh shaklida ishlashda samarali o'zaro ta'sirini amalga oshirishga qaratilgan kompetentsiyalarini qamrab oladi.", "baholash jarayonida raqamli vositalardan foydalanish bilan bog'liq kompetentsiyalarni belgilaydi.", "ta'lim jarayonining barcha subyektlarining raqamli texnologiyalar orqali o'zaro ta'sirini o'z ichiga olgan kompetetsiyalar bilan bog'liq: jamoa, ta'lim oluvchilar va ularning ota-onalari bilan kasbiy o'zaro hamkorlik."], "a": 1, "mavzu": "Ta'lim jarayonini raqamli transformatsiyasi"}, {"n": 19, "q": "Canva \u2013 nima? (2-variant)", "opts": ["o'yinlar va savollarga asoslangan ta'lim platformasi bo'lib, uning yordamida talabalar sinf darslarini to'ldiradigan anketalar, viktorinalar, munozaralar yoki so'rovnomalar tuzishlari mumkin.", "minglab shablonlarni o'zida mujassam etgan onlayn grafik yaratish platformasi bo'lib, uning yordamida shablon va manbalar kutubxonasiga, jumladan, tematik mavzulariga kirishingiz mumkin.", "interfaol modullar orqali o'rganish va o'qitish jarayonini qo'llab-quvvatlash uchun Web 2.0 ilovasi.", "bu virtual muhitni qurish uchun ta'lim platformasi bo'lib, ta'lim virtual dunyosida siz turli xil darslarni o'tkazishingiz mumkin: ma'ruzalar, seminarlar, amaliyotlar, rolli o'yinlar, simulyatsiyalar."], "a": 1, "mavzu": "Raqamli ta'lim resurslari va dasturiy mahsulotlari"}, {"n": 20, "q": "DigCompEdu \u2013 o'qituvchining raqamli kompetensiyalarining Yevropa modelida (Digital Competence of Educators) keltirilgan 22 ta kompetensiyani shakllantirishning TO'RTINCHI yo'nalishi nima?", "opts": ["ta'lim jarayonining barcha subyektlarining raqamli texnologiyalar orqali o'zaro ta'sirini o'z ichiga olgan kompetetsiyalar bilan bog'liq: jamoa, ta'lim oluvchilar va ularning ota-onalari bilan kasbiy o'zaro hamkorlik.", "baholash jarayonida raqamli vositalardan foydalanish bilan bog'liq kompetentsiyalarni belgilaydi.", "ta'lim jarayoni bilan bevosita bog'liq bo'lgan kompetentsiyalarni shakllantirishni, ya'ni ta'lim oluvchilarning mustaqil ishlash qobiliyatini rivojlantirishni ta'minlashga, shuningdek, guruh shaklida ishlashda samarali o'zaro ta'sirini amalga oshirishga qaratilgan kompetentsiyalarini qamrab oladi.", "pedagogning axborot resurslarini tanlash va ularni ta'lim oluvchilar ehtiyojlariga moslashtirish, o'z raqamli resurslarini yaratishi va o'quv jarayonining barcha sub'ektlari uchun ulardan xavfsiz foydalanishni ta'minlash qobiliyatini o'z ichiga oladi."], "a": 1, "mavzu": "Ta'lim jarayonini raqamli transformatsiyasi"}]</script>
+
+<div id="home" class="sc on">
+  <div class="logo">&#128187;</div>
+  <h1 class="htitle">Raqamli Kompetensiyalar</h1>
+  <p class="hsub">Modul 2.3 &mdash; Pedagogik faoliyatda raqamli kompetensiyalar<br>2 ta variant &mdash; jami 20 ta savol</p>
+
+  <div class="mod-grid">
+    <div class="mod-card" id="mc_all" onclick="selMod('all')">
+      <div class="mod-icon">&#128218;</div>
+      <div class="mod-info">
+        <div class="mod-name">Barcha savollar</div>
+        <div class="mod-desc">Ikkala variantdan aralash (20 ta)</div>
+      </div>
+      <div class="mod-badge" id="mb_all">20 ta</div>
+    </div>
+    <div class="mod-card" id="mc_v1" onclick="selMod('v1')">
+      <div class="mod-icon">&#128196;</div>
+      <div class="mod-info">
+        <div class="mod-name">1-variant (2024)</div>
+        <div class="mod-desc">Test__2024_10 — 10 ta savol</div>
+      </div>
+      <div class="mod-badge">10 ta</div>
+    </div>
+    <div class="mod-card" id="mc_v2" onclick="selMod('v2')">
+      <div class="mod-icon">&#128196;</div>
+      <div class="mod-info">
+        <div class="mod-name">2-variant (2026)</div>
+        <div class="mod-desc">Test__2026_01 — 10 ta savol</div>
+      </div>
+      <div class="mod-badge">10 ta</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:1.25rem;opacity:.4;pointer-events:none" id="ordCard">
+    <h3>Savollar tartibi</h3>
+    <div class="pills" id="or">
+      <div class="pill on" data-v="seq">Ketma-ket</div>
+      <div class="pill" data-v="rand">Aralash</div>
+    </div>
+  </div>
+
+  <button class="sbtn" id="s0" disabled>&#9654; Testni boshlash</button>
+</div>
+
+<div id="quiz" class="sc">
+  <div class="qh">
+    <button class="bb" id="bk">&#8592;</button>
+    <div class="pw">
+      <div class="pl">
+        <span id="pt">1 / 0</span>
+        <span id="modtag"></span>
+      </div>
+      <div class="pb"><div class="pf" id="pf" style="width:0%"></div></div>
+    </div>
+    <div class="sbadge" id="sc2">0</div>
+  </div>
+  <div class="qb">
+    <div class="qn" id="qn"></div>
+    <div class="qt" id="qt"></div>
+    <div class="os" id="os"></div>
+    <div class="fb" id="fb" style="display:none"></div>
+    <div class="mavzu-tag" id="mavzutag" style="display:none"></div>
+    <button class="nb" id="nx">Keyingi &#8594;</button>
+  </div>
+</div>
+
+<div id="res" class="sc">
+  <div class="rc">
+    <div class="ci"><div class="p" id="rp"></div><div class="s" id="rs2"></div></div>
+    <div class="res-mod" id="resmod"></div>
+    <div class="rt" id="rti"></div>
+    <div class="rd2" id="rdi"></div>
+    <div class="rsgrid">
+      <div class="rv"><div class="n g" id="ro"></div><div class="l">To&#699;g&#699;ri</div></div>
+      <div class="rv"><div class="n r" id="rw"></div><div class="l">Noto&#699;g&#699;ri</div></div>
+      <div class="rv"><div class="n b" id="rtot"></div><div class="l">Jami</div></div>
+    </div>
+    <div class="brow">
+      <button class="b1" id="re">&#128260; Qayta urinish</button>
+      <button class="b2" id="hm">&#127968; Bosh sahifa</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var ALL = JSON.parse(document.getElementById('qdata').textContent);
+var V1 = ALL.slice(0, 10);
+var V2 = ALL.slice(10, 20);
+var LT = ['A','B','C','D'];
+var pool = [], cur = 0, score = 0, answered = false;
+var cfg = { mod: null, order: 'seq' };
+var MOD_NAMES = { all: 'Barcha savollar (20 ta)', v1: '1-variant 2024 (10 ta)', v2: '2-variant 2026 (10 ta)' };
+
+function el(id){ return document.getElementById(id); }
+function show(id){
+  document.querySelectorAll('.sc').forEach(function(s){ s.classList.remove('on'); });
+  el(id).classList.add('on'); window.scrollTo(0,0);
+}
+
+function selMod(mod){
+  cfg.mod = mod;
+  document.querySelectorAll('.mod-card').forEach(function(c){ c.classList.remove('sel'); });
+  el('mc_' + mod).classList.add('sel');
+  el('ordCard').style.opacity = '1'; el('ordCard').style.pointerEvents = 'auto';
+  el('s0').disabled = false;
+  el('modtag').textContent = MOD_NAMES[mod];
+}
+
+document.querySelectorAll('#or .pill').forEach(function(p){
+  p.addEventListener('click', function(){
+    document.querySelectorAll('#or .pill').forEach(function(x){ x.classList.remove('on'); });
+    p.classList.add('on'); cfg.order = p.getAttribute('data-v');
+  });
+});
+
+el('s0').addEventListener('click', startQ);
+el('bk').addEventListener('click', function(){ show('home'); });
+el('nx').addEventListener('click', nextQ);
+el('re').addEventListener('click', startQ);
+el('hm').addEventListener('click', function(){ show('home'); });
+
+function startQ(){
+  var src = cfg.mod === 'v1' ? V1.slice() : cfg.mod === 'v2' ? V2.slice() : ALL.slice();
+  if(cfg.order === 'rand'){ src.sort(function(){ return Math.random() - 0.5; }); }
+  pool = src;
+  cur = 0; score = 0;
+  el('modtag').textContent = MOD_NAMES[cfg.mod];
+  show('quiz'); draw();
+}
+
+function draw(){
+  var q = pool[cur], tot = pool.length;
+  answered = false;
+  el('pt').textContent = (cur+1) + ' / ' + tot;
+  el('pf').style.width = Math.round(cur/tot*100) + '%';
+  el('sc2').textContent = score;
+  el('qn').textContent = 'Savol ' + (cur+1) + ' / ' + tot;
+  el('qt').textContent = q.q;
+  el('fb').style.display = 'none';
+  el('mavzutag').style.display = 'none';
+  el('nx').classList.remove('on');
+  var os = el('os'); os.innerHTML = '';
+  q.opts.forEach(function(opt, i){
+    var btn = document.createElement('button');
+    btn.className = 'opt';
+    var lt = document.createElement('span'); lt.className = 'lt'; lt.textContent = LT[i];
+    var tx = document.createElement('span'); tx.textContent = opt;
+    btn.appendChild(lt); btn.appendChild(tx);
+    btn.addEventListener('click', (function(idx){ return function(){ pick(idx); }; })(i));
+    os.appendChild(btn);
+  });
+}
+
+function pick(idx){
+  if(answered) return;
+  answered = true;
+  var q = pool[cur];
+  var btns = document.querySelectorAll('.opt');
+  btns.forEach(function(b){ b.setAttribute('disabled',''); });
+  btns[q.a].classList.add('ok');
+  var fb = el('fb');
+  if(idx === q.a){
+    score++; el('sc2').textContent = score;
+    fb.className = 'fb ok'; fb.textContent = "To'g'ri javob!";
+  } else {
+    btns[idx].classList.add('no');
+    fb.className = 'fb no';
+    fb.textContent = "Noto'g'ri. To'g'ri: " + LT[q.a] + ') ' + q.opts[q.a];
+  }
+  fb.style.display = 'block';
+  var mt = el('mavzutag');
+  mt.textContent = "Mavzu: " + q.mavzu;
+  mt.style.display = 'inline-block';
+  var nx = el('nx');
+  nx.textContent = (cur+1 < pool.length) ? 'Keyingi' : 'Natijalar';
+  nx.classList.add('on');
+}
+
+function nextQ(){ cur++; if(cur >= pool.length) showRes(); else draw(); }
+
+function showRes(){
+  var tot = pool.length, pct = Math.round(score/tot*100);
+  var g = pct>=86 ? "A'lo! 🏆" : pct>=71 ? "Yaxshi! 👍" : pct>=56 ? "Qoniqarli" : "Ko'proq mashq kerak";
+  el('rp').textContent = pct + '%';
+  el('rs2').textContent = score + '/' + tot;
+  el('resmod').textContent = MOD_NAMES[cfg.mod];
+  el('rti').textContent = g;
+  el('rdi').textContent = tot + " ta savoldan " + score + " tasiga to'g'ri javob berdingiz";
+  el('ro').textContent = score; el('rw').textContent = tot-score; el('rtot').textContent = tot;
+  show('res');
+}
+</script>
+</body>
+</html>
